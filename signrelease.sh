@@ -9,7 +9,7 @@ ARCHIVE_TYPES="tar.gz zip"
 OPEN_COMMAND="gnome-open"
 # OPEN_COMMAND="nautilus"
 
-# When creating ZIP files the time zopne matters. As GitHub uses the local time
+# When creating ZIP files the time zone matters. As GitHub uses the local time
 # zone when creating the archives we need to replicate this behaviour.
 # (Thanks to GitHubs support for this information!)
 GITHUB_TIME_ZONE="PST8PDT"
