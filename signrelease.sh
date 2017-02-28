@@ -3,6 +3,10 @@
 #
 # LICENSE: CC0/Public Domain - To the extent possible under law, rugk has waived all copyright and related or neighboring rights to this work. This work is published from: Deutschland.
 #
+# NOTE: For the ZIP verification to work you need at least v2.4.0.
+# Explanation: The reason is that prior to v2.4.0 all files are marked as binary and this information is saved in the ZIP file. As GitHub uses a more recent version of git this means most files are marked as text or so there, so that the ZIPs are different.
+# (Thanks to GitHub's support/Jeff King for this information.)
+#
 
 CURR_DIR="$( pwd )"
 ARCHIVE_TYPES="tar.gz zip"
