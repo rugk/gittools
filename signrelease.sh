@@ -10,7 +10,7 @@
 
 CURR_DIR="$( pwd )"
 ARCHIVE_TYPES="tar.gz zip"
-OPEN_COMMAND="gnome-open"
+OPEN_COMMAND="xdg-open"
 # OPEN_COMMAND="nautilus"
 
 # When creating ZIP files the time zone matters. As GitHub uses the local time
@@ -76,7 +76,7 @@ for ext in $ARCHIVE_TYPES; do
     # download file from GitHub
     wget -q "${originGitHub}/archive/${tag}.${ext}" -O "$TMP_DIR/GitHubDownloadedArchive.${ext}"
 
-    # compare with GitGHub version
+    # compare with GitHub version
     if ! diff -s "$TMP_DIR/${project}-${tag}.${ext}" "$TMP_DIR/GitHubDownloadedArchive.${ext}"; then
         echo "FATAL ERROR: GitHubs downloaded ${ext} archive file is different from our own."
         exit 2
