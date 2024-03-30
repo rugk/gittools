@@ -40,7 +40,7 @@ read -rp "Paste GitHub URL here [${originGitHubDefault}]: " originGitHub
 originGitHub=${originGitHub:-$originGitHubDefault}
 
 # pre-processing
-TMP_DIR="$(mktemp --tmpdir -d "signrelease-${project}-${tag}-XXXXXXXXXX")"
+TMP_DIR="$(mktemp --tmpdir -d "signrelease/${project}-${tag}-XXXXXXXXXX")"
 
 #
 # CREATE LOCAL ARCHIVES
