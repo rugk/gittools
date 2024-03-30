@@ -40,8 +40,7 @@ read -rp "Paste GitHub URL here [${originGitHubDefault}]: " originGitHub
 originGitHub=${originGitHub:-$originGitHubDefault}
 
 # pre-processing
-TMP_DIR="/tmp/signrelease/${project}-${tag}"
-mkdir -p "$TMP_DIR"
+TMP_DIR="$(mktemp --tmpdir -d "signrelease-${project}-${tag}-XXXXXXXXXX")"
 
 #
 # CREATE LOCAL ARCHIVES
@@ -61,7 +60,7 @@ fi
 # create archive
 for ext in $ARCHIVE_TYPES; do
     echo git archive --prefix="${project}-${tag}/" -o "$TMP_DIR/${project}-${tag}.${ext}" "${tag}"
-    
+
     if ! TZ=$GITHUB_TIME_ZONE git archive --prefix="${project}-${tag}/" -o "$TMP_DIR/${project}-${tag}.${ext}" "${tag}"; then
         echo "FATAL ERROR: The git archive could not be created."
         exit 2
@@ -81,7 +80,7 @@ for ext in $ARCHIVE_TYPES; do
         echo "FATAL ERROR: GitHubs downloaded ${ext} archive file is different from our own."
         exit 2
     fi
-    
+
     # sign archive
     gpg --armor --detach-sign "$TMP_DIR/${project}-${tag}.${ext}"
 done
