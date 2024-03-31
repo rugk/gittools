@@ -38,6 +38,8 @@ fi
 originGitHubDefault="$( git config --get remote.origin.url )"
 read -rp "Paste GitHub URL here [${originGitHubDefault}]: " originGitHub
 originGitHub=${originGitHub:-$originGitHubDefault}
+originGitHub=${originGitHub/git@github.com:/https://github.com/}
+originGitHub=${originGitHub%.git}
 
 # pre-processing
 TMP_DIR="$(mktemp --tmpdir -d "signrelease/${project}-${tag}-XXXXXXXXXX")"
