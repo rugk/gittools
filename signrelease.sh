@@ -100,7 +100,7 @@ for ext in $ARCHIVE_TYPES; do
     rm "$TMP_DIR/${project}-${tag}.${ext}"
 done
 
-echo "Ńow you can upload the *.asc files"
+echo "Now you can upload the *.asc files"
 echo "  from $TMP_DIR"
 echo "  to ${originGitHub}/releases/edit/${tag}"
 echo "."
