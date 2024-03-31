@@ -73,6 +73,7 @@ done
 # VERIFY/COMPARE FILES
 #
 
+gpgconf --reload gpg-agent
 for ext in $ARCHIVE_TYPES; do
     # download file from GitHub
     wget -q "${originGitHub}/archive/${tag}.${ext}" -O "$TMP_DIR/GitHubDownloadedArchive.${ext}"
@@ -84,7 +85,7 @@ for ext in $ARCHIVE_TYPES; do
     fi
 
     # sign archive
-    gpg --armor --detach-sign "$TMP_DIR/${project}-${tag}.${ext}"
+    gpg -u "${originGitHub##*/} release" --armor --detach-sign "$TMP_DIR/${project}-${tag}.${ext}"
 done
 
 
