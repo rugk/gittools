@@ -73,6 +73,8 @@ done
 # VERIFY/COMPARE FILES
 #
 
+read -rp "Enter the GPG private key name [${project} release]: " gpgPrivateKey
+gpgPrivateKey=${gpgPrivateKey:-$project release}
 gpgconf --reload gpg-agent
 for ext in $ARCHIVE_TYPES; do
     # download file from GitHub
@@ -85,7 +87,7 @@ for ext in $ARCHIVE_TYPES; do
     fi
 
     # sign archive
-    gpg -u "${originGitHub##*/} release" --armor --detach-sign "$TMP_DIR/${project}-${tag}.${ext}"
+    gpg -u "${gpgPrivateKey}" --armor --detach-sign "$TMP_DIR/${project}-${tag}.${ext}"
 done
 
 
