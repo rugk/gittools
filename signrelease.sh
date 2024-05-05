@@ -38,6 +38,8 @@ fi
 originGitHubDefault="$( git config --get remote.origin.url )"
 read -rp "Paste GitHub URL here [${originGitHubDefault}]: " originGitHub
 originGitHub=${originGitHub:-$originGitHubDefault}
+originGitHub=${originGitHub/git@github.com:/https://github.com/}
+originGitHub=${originGitHub%.git}
 
 # pre-processing
 TMP_DIR="$(mktemp --tmpdir -d "signrelease/${project}-${tag}-XXXXXXXXXX")"
@@ -71,6 +73,9 @@ done
 # VERIFY/COMPARE FILES
 #
 
+read -rp "Enter the GPG private key name [${project} release]: " gpgPrivateKey
+gpgPrivateKey=${gpgPrivateKey:-$project release}
+gpgconf --reload gpg-agent
 for ext in $ARCHIVE_TYPES; do
     # download file from GitHub
     wget -q "${originGitHub}/archive/${tag}.${ext}" -O "$TMP_DIR/GitHubDownloadedArchive.${ext}"
@@ -82,7 +87,7 @@ for ext in $ARCHIVE_TYPES; do
     fi
 
     # sign archive
-    gpg --armor --detach-sign "$TMP_DIR/${project}-${tag}.${ext}"
+    gpg -u "${gpgPrivateKey}" --armor --detach-sign "$TMP_DIR/${project}-${tag}.${ext}"
 done
 
 
@@ -98,7 +103,7 @@ for ext in $ARCHIVE_TYPES; do
     rm "$TMP_DIR/${project}-${tag}.${ext}"
 done
 
-echo "Ńow you can upload the *.asc files"
+echo "Now you can upload the *.asc files"
 echo "  from $TMP_DIR"
 echo "  to ${originGitHub}/releases/edit/${tag}"
 echo "."
