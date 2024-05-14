@@ -42,7 +42,7 @@ originGitHub=${originGitHub/git@github.com:/https://github.com/}
 originGitHub=${originGitHub%.git}
 
 # pre-processing
-TMP_DIR="$(mktemp --tmpdir -d "signrelease/${project}-${tag}-XXXXXXXXXX")"
+TMP_DIR="$(mktemp --tmpdir -d "signrelease_${project}-${tag}-XXXXXXXXXX")"
 
 #
 # CREATE LOCAL ARCHIVES
