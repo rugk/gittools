@@ -61,11 +61,20 @@ fi
 
 # create archive
 for ext in $ARCHIVE_TYPES; do
-    echo git archive --prefix="${project}-${tag}/" -o "$TMP_DIR/${project}-${tag}.${ext}" "${tag}"
+    if [ "${ext}" = tar.gz ]; then
+        echo git archive --prefix="${project}-${tag}/" --format tar "${tag}" \| gzip \> "$TMP_DIR/${project}-${tag}.${ext}"
 
-    if ! TZ=$GITHUB_TIME_ZONE git archive --prefix="${project}-${tag}/" -o "$TMP_DIR/${project}-${tag}.${ext}" "${tag}"; then
-        echo "FATAL ERROR: The git archive could not be created."
-        exit 2
+        if ! TZ=$GITHUB_TIME_ZONE git archive --prefix="${project}-${tag}/" --format tar "${tag}" | gzip > "$TMP_DIR/${project}-${tag}.${ext}"; then
+            echo "FATAL ERROR: The git archive could not be created."
+            exit 2
+        fi
+    else
+        echo git archive --prefix="${project}-${tag}/" -o "$TMP_DIR/${project}-${tag}.${ext}" "${tag}"
+
+        if ! TZ=$GITHUB_TIME_ZONE git archive --prefix="${project}-${tag}/" -o "$TMP_DIR/${project}-${tag}.${ext}" "${tag}"; then
+            echo "FATAL ERROR: The git archive could not be created."
+            exit 2
+        fi
     fi
 done
 
@@ -110,4 +119,3 @@ echo "."
 
 # open dir in file manager
 setsid $OPEN_COMMAND "$TMP_DIR"
-
